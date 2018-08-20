@@ -20,6 +20,14 @@ def create_model(x, keep_prob, output_depth, layers=3, input_depth, pool_size=2,
 
 	# Down Layers
 
+	# Block 1 -> 3:
+
 	for layer in range(0,layers):
-		with tf.name_scope('down_conv'.format(str(layer))):
-			features = 2**layer*
+		with tf.name_scope("down_conv{}".format(str(layer))):
+			features = 2 ** layer * features_root
+			sigma
+
+	# Block 2:
+
+
+
