@@ -1,25 +1,39 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-import sys
-from pylab import *
-from keras_contrib.applications import densenet
-from keras.models import Model
-from keras.regularizers import l2
-from keras.layers import *
-from keras.engine import Layer
+import tensorflow as tf
+import glob
+import random
+import time
+import layers
 
 
 
-def uNet(input_shape=None, weight_decay=0., batch_momentum=0.9, batch_shape=None, classes=21):
+
+def uNet(input_shape=None, layers=3, stride=1, pool=2, learn_rate=1.0e-4, epochs=10e4, train_size=3, input_shape=None, 
+	channels=3, classes=2, filter=5):
+
+	features = [channels,32,64,128,256,512,800,classes]
+	x = tf.placeholder(tf.float32, [None,None,None,features[0]])
+	y_ = tf.placeholder(tf.int32, [None,None,None,1])
+
+	# Creating wegihts for each layer and biases
+	W_conv1 = layers.weight_variable([filter,filter,features[0], features[1]])
+	b_conv1 = layers.bias_variable([features[1]])
+
+	W_conv1 = layers.weight_variable([filter,filter,features[1], features[2]])
+	b_conv1 = layers.bias_variable([features[2]])
+
+	W_conv1 = layers.weight_variable([filter,filter,features[2], features[3]])
+	b_conv1 = layers.bias_variable([features[3]])
+
+	W_conv1 = layers.weight_variable([filter,filter,features[3], features[4]])
+	b_conv1 = layers.bias_variable([features[4]])
+
+	W_conv1 = layers.weight_variable([filter,filter,features[4], features[5]])
+	b_conv1 = layers.bias_variable([features[5]])
+
 
 
 	# Block 1
-	x = Conv2D(64, (3,3), activation='relu', padding='same', name='block1_conv1', kernel_regularizer=l2(weight_decay))(img_input)
-	x = Conv2D(64, (3,3), activation='relu', padding='same', name='block1_conv2', kernel_regularizer=l2(weight_decay))(x)
-	x = MaxPooling2D((2,2), strides=(2,2), name='block1_pool')(x)
-
-	# Block 2
-	x = Conv2D(128, (3,3), activation='relu', padding='same', name='block2_conv1', kernel_regularizer=l2(weight_decay))(x)
-	x = Conv2D(128, (3,3), activation='relu', padding='same', name='block2_conv2', kernel_regularizer=l2(weight_decay))(x)
+	
 	
